@@ -1,0 +1,171 @@
+<svg width="495" height="160" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <foreignObject width="495" height="160">
+        <div xmlns="http://www.w3.org/1999/xhtml" class="container">
+            <style>
+                /* CSS Reset */
+                html, body, div, span, h1, p, a, img {
+                    margin: 0;
+                    padding: 0;
+                    border: 0;
+                    font-size: 100%;
+                    font: inherit;
+                    vertical-align: baseline;
+                }
+                /* Actual Styles */
+                main {
+                    display: flex;
+                    padding: 20px;
+                    border-radius: 5px;
+                    {% if theme == 'dark' %}
+                        background: #161B22;
+                    {% else %}
+                        background: #F6F8FA;
+                    {% endif %}
+                }
+                .scan-code {
+                    transform-origin: top right;
+                    transform: rotate(270deg) translateY(-120px);
+                    width: 120px;
+                    height: 100%;
+                    border-radius: 5px;
+                    {% if theme == 'dark' %}
+                        filter: invert(100%);
+                    {% endif %}
+                }
+                aside {
+                    width: 485px;
+                    display: flex;
+                    position: relative;
+                    {% if scan_code %}
+                        left: -70px;
+                    {% endif %}
+                }
+                .cover {
+                    width: 120px;
+                    height: 120px;
+                    {% if spin %}                    border-radius: 50%;
+                    animation: spin 0ms -800ms linear infinite;
+                    animation-duration: 10s;
+                    {% else %}
+                    border-radius: 10px;
+                    {% endif %}
+                    {% if theme == 'dark' %}
+                        box-shadow: 0 0 10px 5px #1b2027;
+                    {% else %}
+                        box-shadow: 0 0 10px 5px #f1f3f5;
+                    {% endif %}
+                }
+                section {
+                    padding-left: 20px;
+                    width: 100%;
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: space-between;
+                    align-items: center;
+                }
+                .info {
+                    margin-top: 16px;
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Helvetica, Arial, sans-serif, Apple Color Emoji, Segoe UI Emoji;
+                }
+                .top {
+                    display: flex;
+                    align-items: center;
+                }
+                h1 {
+                    font-size: 20px;
+                    font-weight: 600;
+                    white-space: nowrap;
+                    text-overflow: ellipsis;
+                    display: block;
+                    overflow: hidden;
+                    max-width: 260px;
+                    {% if not scan_code %}
+                        margin-left: 10px;
+                    {% endif %}
+                    {% if theme == 'dark' %}
+                        color: aliceblue;
+                    {% else %}
+                        color: #161B22;;
+                    {% endif %}
+                }
+                p {
+                    margin-top: 5px;
+                    font-size: 18px;
+                    font-weight: 500;
+                    white-space: nowrap;
+                    text-overflow: ellipsis;
+                    display: block;
+                    overflow: hidden;
+                    max-width: 260px;
+                    {% if theme == 'dark' %}
+                        color: rgba(240, 248, 255, calc(2/3));
+                    {% else %}
+                        color: rgba(22, 27, 34, calc(2/3));
+                    {% endif %}
+                }
+                .logo {
+                    width: 24px;
+                    height: 24px;
+                }
+                .bar-container {
+                    display: flex;
+                    animation: rainbow 0ms -800ms linear infinite;
+                }
+                .bar {
+                    border-radius: 3px 3px 0 0;
+                    height: 30px;
+                    transform-origin: bottom;
+                    animation: resize 0ms -800ms ease-in-out infinite alternate;
+                    {% if scan_code %}
+                        width: 21px;
+                    {% else %}
+                        width: 20px;
+                    {% endif %}
+                }
+                .bar:not(:first-child) {
+                    margin-left: 6px;
+                }
+                @keyframes spin {
+                    100% { transform: rotate(360deg) }
+                }
+                @keyframes rainbow {
+                    100% { filter: hue-rotate(360deg) }
+                }
+                @keyframes resize {
+                    0% {
+                        transform: scaleY(0);
+                        opacity: .05;
+                    } 100% {
+                        transform: scaleY(1);
+                        opacity: .95;
+                    }
+                }
+            </style>
+            <main>
+                {% if scan_code %}
+                    <img class="scan-code" src="data:image/png;base64, {{scan_code}}" alt="Scan Code" />
+                {% endif %}
+                <aside>
+                    <img class="cover" src="data:image/png;base64, {{image}}" alt="Cover Image" />
+                    <section>
+                        <div class="info">
+                            <div class="top">
+                                {% if not scan_code %}
+                                    <img class="logo" src="data:image/png;base64, {{logo}}" alt="Spotify Logo" />
+                                {% endif %}
+                                <h1>{{song}}</h1>
+                            </div>
+                            <p>{{artist}}</p>
+                        </div>
+                        <div class="bar-container">
+                            {{bars|safe}}
+                        </div>
+                    </section>
+                </aside>
+            </main>
+        </div>
+    </foreignObject>
+</svg>
