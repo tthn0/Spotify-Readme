@@ -1,7 +1,7 @@
 import requests
 from base64 import b64encode
 from dotenv import find_dotenv, load_dotenv
-from flask import Flask, Response, render_template, request
+from flask import Flask, Response, render_template, request, redirect
 from os import getenv
 from random import randint
 
@@ -136,6 +136,15 @@ app = Flask(__name__)
 
 
 @app.route("/", defaults={"path": ""})
+@app.route("/play")
+def play():
+    data = spotify_request("me/player/currently-playing")
+    if data:
+        id = data["item"]["id"]
+    else:
+        id = spotify_request(
+            "me/player/recently-played?limit=1")["items"][0]["track"]["id"]
+    return redirect(f"https://open.spotify.com/track/{id}")
 @app.route("/<path:path>")
 def catch_all(path):
     resp = Response(
