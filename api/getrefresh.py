@@ -3,8 +3,8 @@ import requests
 from urllib.parse import urlencode
 
 # Your Spotify app's client ID and client secret
-client_id = '86fe8b2768664f2ba22fba6ba9a3e2d1'
-client_secret = '579ce9f6c48f4af2b06b0e06a4352af9'
+client_id = '**'
+client_secret = '**'
 
 # The redirect URI you set in your Spotify app settings
 redirect_uri = 'http://localhost/callback/'
