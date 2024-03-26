@@ -26,14 +26,12 @@
                     width: 120px;
                     height: 100%;
                     border-radius: 5px;
+                    display: none;
                 }
                 aside {
-                    width: 485px;
+                    width: 400px;
                     display: flex;
-                    position: relative;
-                    {% if scan_code %}
-                        left: -70px;
-                    {% endif %}
+                    position: relative; 
                 }
                 .cover {
                     width: 148px;
@@ -95,9 +93,7 @@
                         <section>
                             <div class="info">
                                 <div class="top">
-                                    {% if not scan_code %}
                                         <img class="logo" src="data:image/png;base64, {{logo}}" alt="Spotify Logo" />
-                                    {% endif %}
                                 </div>
                             </div>
                         </section>
