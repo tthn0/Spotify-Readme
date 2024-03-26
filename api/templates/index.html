@@ -1,5 +1,5 @@
-<svg width="495" height="160" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <foreignObject width="495" height="160">
+<svg width="800" height="800" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <foreignObject width="800" height="800">
         <div xmlns="http://www.w3.org/1999/xhtml" class="container">
             <style>
                 /* CSS Reset */
@@ -19,11 +19,6 @@
                     display: flex;
                     padding: 20px;
                     border-radius: 5px;
-                    {% if theme == 'dark' %}
-                        background: #161B22;
-                    {% else %}
-                        background: #F6F8FA;
-                    {% endif %}
                 }
                 .scan-code {
                     transform-origin: top right;
@@ -31,9 +26,6 @@
                     width: 120px;
                     height: 100%;
                     border-radius: 5px;
-                    {% if theme == 'dark' %}
-                        filter: invert(100%);
-                    {% endif %}
                 }
                 aside {
                     width: 485px;
@@ -44,19 +36,19 @@
                     {% endif %}
                 }
                 .cover {
-                    width: 120px;
-                    height: 120px;
-                    {% if spin %}                    border-radius: 50%;
-                    animation: spin 0ms -800ms linear infinite;
-                    animation-duration: 10s;
-                    {% else %}
-                    border-radius: 10px;
-                    {% endif %}
-                    {% if theme == 'dark' %}
-                        box-shadow: 0 0 10px 5px #1b2027;
-                    {% else %}
-                        box-shadow: 0 0 10px 5px #f1f3f5;
-                    {% endif %}
+                    width: 148px;
+                    height: 155px;
+                    position: absolute;
+                    top: 203px;
+                    left: 68px;
+                    perspective: 1000px;
+                    border-radius: 18px;
+                    transform: rotate3d(0, 2, 10, -20deg);
+                    opacity: initial;
+                    /*border: 1px solid #CCB184;
+                    /*transform: rotate(-24deg) rotate3d(1, 0, 0, -10deg);*/
+                    border: none;
+                    box-shadow: 0 0 0 1.4px rgba(204, 177, 132, 0.4);
                 }
                 section {
                     padding-left: 20px;
@@ -77,78 +69,24 @@
                     display: flex;
                     align-items: center;
                 }
-                h1 {
-                    font-size: 20px;
-                    font-weight: 600;
-                    white-space: nowrap;
-                    text-overflow: ellipsis;
-                    display: block;
-                    overflow: hidden;
-                    max-width: 260px;
-                    {% if not scan_code %}
-                        margin-left: 10px;
-                    {% endif %}
-                    {% if theme == 'dark' %}
-                        color: aliceblue;
-                    {% else %}
-                        color: #161B22;;
-                    {% endif %}
-                }
-                p {
-                    margin-top: 5px;
-                    font-size: 18px;
-                    font-weight: 500;
-                    white-space: nowrap;
-                    text-overflow: ellipsis;
-                    display: block;
-                    overflow: hidden;
-                    max-width: 260px;
-                    {% if theme == 'dark' %}
-                        color: rgba(240, 248, 255, calc(2/3));
-                    {% else %}
-                        color: rgba(22, 27, 34, calc(2/3));
-                    {% endif %}
-                }
                 .logo {
                     width: 24px;
                     height: 24px;
-                }
-                .bar-container {
-                    display: flex;
-                    animation: rainbow 0ms -800ms linear infinite;
-                }
-                .bar {
-                    border-radius: 3px 3px 0 0;
-                    height: 30px;
-                    transform-origin: bottom;
-                    animation: resize 0ms -800ms ease-in-out infinite alternate;
-                    {% if scan_code %}
-                        width: 21px;
-                    {% else %}
-                        width: 20px;
-                    {% endif %}
-                }
-                .bar:not(:first-child) {
-                    margin-left: 6px;
-                }
-                @keyframes spin {
-                    100% { transform: rotate(360deg) }
-                }
-                @keyframes rainbow {
-                    100% { filter: hue-rotate(360deg) }
-                }
-                @keyframes resize {
-                    0% {
-                        transform: scaleY(0);
-                        opacity: .05;
-                    } 100% {
-                        transform: scaleY(1);
-                        opacity: .95;
-                    }
+                    position: absolute;
+                    top: 346px;
+                    left: 99px; 
+                    transform: rotate3d(0, 2, 10, -33deg) 
+                    /*transform: rotate(-32deg);*/
+                } 
+                .ryan{
+                    width: 400px;
+                    height: 400px;
+                    position: absolute;
                 }
             </style>
-            <a href="https://github.com/tthn0/Spotify-Readme" target="_blank">
+            <a href="" target="_blank">
                 <main>
+                    <img class="ryan" src="data:image/png;base64, {{ryan}}" alt="Ryan Gosling"></img>
                     {% if scan_code %}
                         <img class="scan-code" src="data:image/png;base64, {{scan_code}}" alt="Scan Code" />
                     {% endif %}
@@ -160,12 +98,7 @@
                                     {% if not scan_code %}
                                         <img class="logo" src="data:image/png;base64, {{logo}}" alt="Spotify Logo" />
                                     {% endif %}
-                                    <h1>{{song}}</h1>
                                 </div>
-                                <p>{{artist}}</p>
-                            </div>
-                            <div class="bar-container">
-                                {{bars|safe}}
                             </div>
                         </section>
                     </aside>

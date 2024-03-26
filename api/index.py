@@ -15,7 +15,8 @@ with open("api/base64/placeholder_image.txt") as f:
     B64_PLACEHOLDER_IMAGE = f.read()
 with open("api/base64/spotify_logo.txt") as f:
     B64_SPOTIFY_LOGO = f.read()
-
+with open("api/base64/ryan_gosling.txt") as f:
+    B64_RYAN_GOSLING = f.read()
 
 def get_token():
     """Get a new access token"""
@@ -41,44 +42,6 @@ def spotify_request(endpoint):
         headers={"Authorization": f"Bearer {get_token()}"},
     )
     return {} if r.status_code == 204 else r.json()
-
-
-def generate_bars(bar_count, rainbow):
-    """Build the HTML/CSS snippets for the EQ bars to be injected"""
-    bars = "".join(["<div class='bar'></div>" for _ in range(bar_count)])
-    css = "<style>"
-    if rainbow and rainbow != "false" and rainbow != "0":
-        css += ".bar-container { animation-duration: 2s; }"
-    spectrum = [
-        "#ff0000",
-        "#ff4000",
-        "#ff8000",
-        "#ffbf00",
-        "#ffff00",
-        "#bfff00",
-        "#80ff00",
-        "#40ff00",
-        "#00ff00",
-        "#00ff40",
-        "#00ff80",
-        "#00ffbf",
-        "#00ffff",
-        "#00bfff",
-        "#0080ff",
-        "#0040ff",
-        "#0000ff",
-        "#4000ff",
-        "#8000ff",
-        "#bf00ff",
-        "#ff00ff",
-    ]
-    for i in range(bar_count):
-        css += f""".bar:nth-child({i + 1}) {{
-                animation-duration: {randint(500, 750)}ms;
-                background: {spectrum[i] if rainbow and rainbow != 'false' and rainbow != '0' else '#24D255'};
-            }}"""
-    return f"{bars}{css}</style>"
-
 
 def load_image_base64(url):
     """Get the Base64 encoded image from url"""
@@ -108,10 +71,8 @@ def make_svg(spin, scan, theme, rainbow):
         image = load_image_base64(item["album"]["images"][1]["url"])
 
     if scan and scan != "false" and scan != "0":
-        bar_count = 10
         scan_code = get_scan_code(item["uri"])
     else:
-        bar_count = 12
         scan_code = None
 
     print(scan, type(scan))
@@ -120,7 +81,6 @@ def make_svg(spin, scan, theme, rainbow):
     return render_template(
         "index.html",
         **{
-            "bars": generate_bars(bar_count, rainbow),
             "artist": item["artists"][0]["name"],
             "song": item["name"],
             "image": image,
@@ -128,6 +88,7 @@ def make_svg(spin, scan, theme, rainbow):
             "theme": theme,
             "spin": spin,
             "logo": B64_SPOTIFY_LOGO,
+            "ryan": B64_RYAN_GOSLING,
         },
     )
 
