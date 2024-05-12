@@ -136,15 +136,6 @@ app = Flask(__name__)
 
 
 @app.route("/", defaults={"path": ""})
-@app.route("/play")
-def play():
-    data = spotify_request("me/player/currently-playing")
-    if data:
-        id = data["item"]["id"]
-    else:
-        id = spotify_request(
-            "me/player/recently-played?limit=1")["items"][0]["track"]["id"]
-    return redirect(f"https://open.spotify.com/track/{id}")
 @app.route("/<path:path>")
 def catch_all(path):
     resp = Response(
@@ -159,6 +150,15 @@ def catch_all(path):
     resp.headers["Cache-Control"] = "s-maxage=1"
     return resp
 
+@app.route("/api/play")
+def play():
+    data = spotify_request("me/player/currently-playing")
+    if data:
+        id = data["item"]["id"]
+    else:
+        id = spotify_request(
+            "me/player/recently-played?limit=1")["items"][0]["track"]["id"]
+    return redirect(f"https://open.spotify.com/track/{id}")
 
 if __name__ == "__main__":
     app.run(debug=True)
