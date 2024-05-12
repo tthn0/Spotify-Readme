@@ -125,9 +125,11 @@ https://accounts.spotify.com/authorize?client_id={CLIENT_ID}&response_type=code&
 * In any markdown file, add the following (replace `{PROJECT_NAME}` with the name you gave your Vercel project):
 
   ```html
-  <a href="https://github.com/tthn0/Spotify-Readme">
+  <a href="https://{PROJECT_NAME}.vercel.app/api/play">
     <img src="https://{PROJECT_NAME}.vercel.app/api" alt="Current Spotify Song">
   </a>
+  
+  <a href="https://github.com/tthn0/Spotify-Readme">Source Repo</a>
   ```
 
 * Please leave the anchor tag hyperlink reference to this GitHub repo to retain creator credit and for other users to find! 
