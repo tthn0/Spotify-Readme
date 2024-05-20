@@ -23,9 +23,9 @@ def get_token():
         "https://accounts.spotify.com/api/token",
         data={
             "grant_type": "refresh_token",
-            "refresh_token": getenv("REFRESH_TOKEN"),
-            "client_id": getenv("CLIENT_ID"),
-            "client_secret": getenv("CLIENT_SECRET"),
+            "refresh_token": getenv("AQAjA062NgOw9idZTjPSTnWGLyJV0KJB8pvK_5_KFZkgkrEglPs4ugQpxFmqEASd9YclOoCsjBbkvmwAGaccyI_mEQ7MxSS3bFczi5c1Y_yMykjTSt1ykXXKpayT1dpXNgs"),
+            "client_id": getenv("b743091350654489b164b3a4912eda2b"),
+            "client_secret": getenv("238ecf4e7c66425db65262ed75630f6c"),
         },
     )
     try:
