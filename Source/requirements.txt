@@ -1,0 +1,4 @@
+Flask
+python-dotenv
+requests
+# mypy
