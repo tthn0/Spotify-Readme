@@ -91,15 +91,17 @@ def get_track(spotify_api: SpotifyAPI) -> tuple[Dict[str, Any], bool]:
     )
     is_playing = now_playing.get('is_playing', False)
     now_playing_track = now_playing.get("item")
-
+    progress_ms = now_playing.get('progress_ms', 0)
+    duration_ms = now_playing_track.get('duration_ms', 0) if now_playing_track else 0
+    
     if now_playing_track is not None:
-        return (now_playing_track, is_playing)
+        return (now_playing_track, is_playing, progress_ms, duration_ms)
     else:
-        recently_played: Dict[str, Any] = spotify_api.make_request(
-            "me/player/recently-played?limit=1"
-        )
+        recently_played = spotify_api.make_request("me/player/recently-played?limit=1")
         recently_played_track = recently_played.get("items", [{}])[0].get("track", {})
-        return (recently_played_track, False)
+        duration_ms = recently_played_track.get('duration_ms', 0)
+        return (recently_played_track, False, duration_ms, duration_ms)
+
 
 def get_base_64_track_image(track: Dict[str, Any]) -> str:
     """Get the Base64 encoded image from a track."""
@@ -122,7 +124,12 @@ def get_base_64_scan_code(spotify_uri: str, background: str, foreground: str) ->
 def prepare_widget_template_variables(
     parsed_args: ParsedArgs, spotify_api: SpotifyAPI
 ) -> Dict[str, Union[str, bool]]:
-    track, is_playing = get_track(spotify_api)
+    track, is_playing, progress_ms, duration_ms = get_track(spotify_api)
+
+    elapsed_time = ms_to_time(progress_ms)
+    remaining_ms = max(duration_ms - progress_ms, 0)
+    remaining_time = f"-{ms_to_time(remaining_ms)}" if remaining_ms > 0 else "0:00"
+    progress_percentage = (progress_ms / duration_ms * 100) if duration_ms > 0 else 0
 
     eq_bars_html = WidgetGenerator.generate_eq_bars_html(
         parsed_args.bar_count, parsed_args.eq_color
@@ -157,6 +164,10 @@ def prepare_widget_template_variables(
         "subtitle_color": subtitle_color,
         "background_color": background_color,
         "is_playing": is_playing,
+        "elapsed_time": elapsed_time,
+        "remaining_time": remaining_time,
+        "progress_percentage": progress_percentage,
+        "duration_ms": duration_ms,
     }
 
 
@@ -183,3 +194,12 @@ def make_link_page() -> str:
     track_id = track["id"]
     embed_link = f"https://open.spotify.com/embed/track/{track_id}"
     return render_template("link.html", embed_link=embed_link)
+
+def ms_to_time(ms: int) -> str:
+    """Convert milliseconds to minutes:seconds format."""
+    if ms <= 0:
+        return "0:00"
+    seconds = ms // 1000
+    minutes, seconds = divmod(seconds, 60)
+    return f"{minutes}:{seconds:02d}"
+    

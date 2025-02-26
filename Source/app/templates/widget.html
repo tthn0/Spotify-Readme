@@ -56,11 +56,6 @@
             {% else %}
                 border-radius: 10px;
             {% endif %}
-            <!-- {% if theme == 'dark' %}
-                box-shadow: 0 0 10px 5px #1b2027;
-            {% else %}
-                box-shadow: 0 0 10px 5px #f1f3f5;
-            {% endif %} -->
         }
         section {
             padding-left: 20px;
@@ -143,6 +138,32 @@
             }
         }
 
+        /* Progress Bar Styles */
+        .progress-container {
+            width: 100%;
+            margin-top: auto;
+            padding: 8px 0 4px;
+        }
+        .progress-bar {
+            width: 100%;
+            height: 4px;
+            background-color: rgba(255, 255, 255, 0.2);
+            border-radius: 2px;
+            overflow: hidden;
+        }
+        .progress-fill {
+            height: 100%;
+            background-color: {{ subtitle_color }};
+        }
+        .time-display {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 4px;
+            font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Helvetica, Arial, sans-serif;
+            font-size: 12px;
+            color: {{ subtitle_color }};
+        }
+
         /* Stop animations when paused */
         {% if not is_playing %}
         .bar {
@@ -183,6 +204,18 @@
                 <p>{{track_artist}}</p>
               </div>
               <div class="bar-container">{{eq_bars_html|safe}}</div>
+              {% if duration_ms > 0 %}
+              <div class="progress-container">
+                <div class="progress-bar">
+                  <div class="progress-fill" style="width: {{ progress_percentage }}%;"></div>
+                </div>
+                <div class="time-display">
+                  <span class="elapsed-time">{{ elapsed_time }}</span>
+                  <span class="remaining-time">{{ remaining_time }}</span>
+                </div>
+              </div>
+              {% endif %}
+              
             </section>
           </aside>
         </main>
