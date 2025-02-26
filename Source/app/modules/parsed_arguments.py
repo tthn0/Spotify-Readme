@@ -22,11 +22,11 @@ class CONSTANTS:
 class ParsedArgs:
     spin: bool = False
     scan: bool = False
+    timeline: bool = False  # New default parameter
     theme: THEME = THEME.LIGHT
     eq_color: str = COLORS.SPOTIFY_GREEN
     width: int = 500  # Unused for now but will be used in the future
-    timeline: bool = False  # New argument for timeline/progress bar
-    
+
     @property
     def main_background_color(self) -> str:
         if self.theme == THEME.LIGHT:
@@ -79,6 +79,7 @@ class ParsedArgs:
         return {
             "spin": ParsedArgs.is_truhty(get_param("spin", "false", type=str)),
             "scan": ParsedArgs.is_truhty(get_param("scan", "false", type=str)),
+            "timeline": ParsedArgs.is_truhty(get_param("timeline", "false", type=str)),
             "theme": THEME(get_param("theme", THEME.LIGHT.value, type=str)),
             "eq_color": get_param("eq_color", COLORS.SPOTIFY_GREEN, type=str),
             "width": get_param("width", CONSTANTS.MAX_WIDGET_WIDTH, type=int),
@@ -90,6 +91,7 @@ class ParsedArgs:
         self._validate_theme()
         self._validate_eq_color()
         self._validate_width()
+        self._validate_timeline()
 
     def _validate_spin(self) -> None:
         if not isinstance(self.spin, bool):
@@ -121,3 +123,7 @@ class ParsedArgs:
             raise ValueError(
                 f"Width must be ∈ [{CONSTANTS.MIN_WIDGET_WIDTH}, {CONSTANTS.MAX_WIDGET_WIDTH}]."
             )
+
+    def _validate_timeline(self) -> None:
+        if not isinstance(self.timeline, bool):
+            raise ValueError("`timeline` must be of type `bool`.")

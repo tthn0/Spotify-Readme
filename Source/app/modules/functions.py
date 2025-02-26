@@ -168,6 +168,7 @@ def prepare_widget_template_variables(
         "remaining_time": remaining_time,
         "progress_percentage": progress_percentage,
         "duration_ms": duration_ms,
+        "timeline": parsed_args.timeline
     }
 
 
@@ -202,4 +203,3 @@ def ms_to_time(ms: int) -> str:
     seconds = ms // 1000
     minutes, seconds = divmod(seconds, 60)
     return f"{minutes}:{seconds:02d}"
-    

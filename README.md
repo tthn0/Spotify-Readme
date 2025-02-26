@@ -41,6 +41,14 @@
 
 ![Preview](https://nazchanel.pythonanywhere.com?scan=true)
 
+#### Include Timeline
+
+```
+?timeline=true
+```
+
+![Preview](https://nazchanel.pythonanywhere.com?timeline=true)
+
 #### Dark Theme
 
 ```
@@ -71,7 +79,7 @@
 ?spin=true&scan=true&eq_color=rainbow&theme=dark
 ```
 
-![Preview](https://nazchanel.pythonanywhere.com?spin=true&scan=true&eq_color=rainbow&theme=dark)
+![Preview](https://nazchanel.pythonanywhere.com?spin=true&scan=true&eq_color=rainbow&theme=dark&timeline=true)
 
 ## Setup/Deployment
 

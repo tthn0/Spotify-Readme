@@ -1,236 +1,235 @@
 <svg
-  width="495"
-  height="160"
-  xmlns="http://www.w3.org/2000/svg"
-  xmlns:xlink="http://www.w3.org/1999/xlink"
+width="495"
+height="160"
+xmlns="http://www.w3.org/2000/svg"
+xmlns:xlink="http://www.w3.org/1999/xlink"
 >
-  <!-- ForeignObject for the main widget content -->
-  <foreignObject width="495" height="160">
-    <div xmlns="http://www.w3.org/1999/xhtml" class="container">
-      <style>
-        /* CSS Reset */
-        html, body, div, span, h1, p, a, img {
-            margin: 0;
-            padding: 0;
-            border: 0;
-            font-size: 100%;
-            font: inherit;
-            vertical-align: baseline;
-        }
-        a {
-            text-decoration: none;
-        }
-        /* Actual Styles */
-        main {
-            display: flex;
-            padding: 20px;
-            border-radius: 5px;
-            background: {{ background_color }};
-            {% if not is_playing %}
-                filter: grayscale(100%);
-                opacity: 0.7;
-            {% endif %}
-        }
-        .scan-code {
-            transform-origin: top right;
-            transform: rotate(270deg) translateY(-120px);
-            width: 120px;
-            height: 100%;
-            border-radius: 5px;
-        }
-        aside {
-            width: 485px;
-            display: flex;
-            position: relative;
-            {% if base_64_scan_code %}
-                left: -70px;
-            {% endif %}
-        }
-        .cover {
-            width: 120px;
-            height: 120px;
-            {% if spin %}
-                border-radius: 50%;
-                animation: spin 0ms -800ms linear infinite;
-                animation-duration: 10s;
-            {% else %}
-                border-radius: 10px;
-            {% endif %}
-        }
-        section {
-            padding-left: 20px;
-            width: 100%;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .info {
-            margin-top: 16px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Helvetica, Arial, sans-serif, Apple Color Emoji, Segoe UI Emoji;
-        }
-        .top {
-            display: flex;
-            align-items: center;
-        }
-        h1 {
-            font-size: 20px;
-            font-weight: 600;
-            white-space: nowrap;
-            text-overflow: ellipsis;
-            display: block;
-            overflow: hidden;
-            max-width: 260px;
-            color: {{ title_color }};
-            {% if not base_64_scan_code %}
-                margin-left: 10px;
-            {% endif %}
-        }
-        p {
-            margin-top: 5px;
-            font-size: 18px;
-            font-weight: 500;
-            white-space: nowrap;
-            text-overflow: ellipsis;
-            display: block;
-            overflow: hidden;
-            max-width: 260px;
-            color: {{ subtitle_color }};
-        }
-        .logo {
-            width: 24px;
-            height: 24px;
-        }
-        .bar-container {
-            display: flex;
-            animation: rainbow 0ms -800ms linear infinite;
-        }
-        .bar {
-            border-radius: 3px 3px 0 0;
-            height: 30px;
-            transform-origin: bottom;
-            animation: resize 0ms -800ms ease-in-out infinite alternate;
-            {% if base_64_scan_code %}
-                width: 21px;
-            {% else %}
-                width: 20px;
-            {% endif %}
-        }
-        .bar:not(:first-child) {
-            margin-left: 6px;
-        }
-        @keyframes spin {
-            100% { transform: rotate(360deg) }
-        }
-        @keyframes rainbow {
-            100% { filter: hue-rotate(360deg) }
-        }
-        @keyframes resize {
-            0% {
-                transform: scaleY(0);
-                opacity: .05;
-            } 100% {
-                transform: scaleY(1);
-                opacity: .95;
-            }
-        }
-
-        /* Progress Bar Styles */
-        .progress-container {
-            width: 100%;
-            margin-top: auto;
-            padding: 8px 0 4px;
-        }
-        .progress-bar {
-            width: 100%;
-            height: 4px;
-            background-color: rgba(255, 255, 255, 0.2);
-            border-radius: 2px;
-            overflow: hidden;
-        }
-        .progress-fill {
-            height: 100%;
-            background-color: {{ subtitle_color }};
-        }
-        .time-display {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 4px;
-            font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Helvetica, Arial, sans-serif;
-            font-size: 12px;
-            color: {{ subtitle_color }};
-        }
-
-        /* Stop animations when paused */
+<!-- ForeignObject for the main widget content -->
+<foreignObject width="495" height="160">
+  <div xmlns="http://www.w3.org/1999/xhtml" class="container">
+    <style>
+      /* CSS Reset */
+      html, body, div, span, h1, p, a, img {
+        margin: 0;
+        padding: 0;
+        border: 0;
+        font-size: 100%;
+        font: inherit;
+        vertical-align: baseline;
+      }
+      a {
+        text-decoration: none;
+      }
+      /* Actual Styles */
+      main {
+        display: flex;
+        padding: 20px;
+        border-radius: 5px;
+        background: {{ background_color }};
         {% if not is_playing %}
-        .bar {
-            animation: none !important;
-        }
-        .cover {
-            animation: none !important;
-        }
+        filter: grayscale(100%);
+        opacity: 0.7;
         {% endif %}
-      </style>
-      <a href="https://github.com/tthn0/Spotify-Readme" target="_blank">
-        <main>
-          {% if base_64_scan_code %}
+      }
+      .scan-code {
+        transform-origin: top right;
+        transform: rotate(270deg) translateY(-120px);
+        width: 120px;
+        height: 100%;
+        border-radius: 5px;
+      }
+      aside {
+        width: 485px;
+        display: flex;
+        position: relative;
+        {% if base_64_scan_code %}
+        left: -70px;
+        {% endif %}
+      }
+      .cover {
+        width: 120px;
+        height: 120px;
+        {% if spin %}
+        border-radius: 50%;
+        animation: spin 0ms -800ms linear infinite;
+        animation-duration: 10s;
+        {% else %}
+        border-radius: 10px;
+        {% endif %}
+      }
+      section {
+        padding-left: 20px;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .info {
+        margin-top: 16px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Helvetica, Arial, sans-serif, Apple Color Emoji, Segoe UI Emoji;
+      }
+      .top {
+        display: flex;
+        align-items: center;
+      }
+      h1 {
+        font-size: 20px;
+        font-weight: 600;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        display: block;
+        overflow: hidden;
+        max-width: 260px;
+        color: {{ title_color }};
+        {% if not base_64_scan_code %}
+        margin-left: 10px;
+        {% endif %}
+      }
+      p {
+        margin-top: 5px;
+        font-size: 18px;
+        font-weight: 500;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        display: block;
+        overflow: hidden;
+        max-width: 260px;
+        color: {{ subtitle_color }};
+      }
+      .logo {
+        width: 24px;
+        height: 24px;
+      }
+      .bar-container {
+        display: flex;
+        animation: rainbow 0ms -800ms linear infinite;
+      }
+      .bar {
+        border-radius: 3px 3px 0 0;
+        height: 30px;
+        transform-origin: bottom;
+        animation: resize 0ms -800ms ease-in-out infinite alternate;
+        {% if base_64_scan_code %}
+        width: 21px;
+        {% else %}
+        width: 20px;
+        {% endif %}
+      }
+      .bar:not(:first-child) {
+        margin-left: 6px;
+      }
+      @keyframes spin {
+        100% { transform: rotate(360deg) }
+      }
+      @keyframes rainbow {
+        100% { filter: hue-rotate(360deg) }
+      }
+      @keyframes resize {
+        0% {
+          transform: scaleY(0);
+          opacity: .05;
+        } 100% {
+          transform: scaleY(1);
+          opacity: .95;
+        }
+      }
+      
+      /* Progress Bar Styles */
+      .progress-container {
+        width: 100%;
+        margin-top: auto;
+        padding: 8px 0 4px;
+      }
+      .progress-bar {
+        width: 100%;
+        height: 4px;
+        background-color: rgba(255, 255, 255, 0.2);
+        border-radius: 2px;
+        overflow: hidden;
+      }
+      .progress-fill {
+        height: 100%;
+        background-color: {{ subtitle_color }};
+      }
+      .time-display {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 4px;
+        font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Helvetica, Arial, sans-serif;
+        font-size: 12px;
+        color: {{ subtitle_color }};
+      }
+      
+      /* Stop animations when paused */
+      {% if not is_playing %}
+      .bar {
+        animation: none !important;
+      }
+      .cover {
+        animation: none !important;
+      }
+      {% endif %}
+    </style>
+    <a href="https://github.com/tthn0/Spotify-Readme" target="_blank">
+      <main>
+        {% if base_64_scan_code %}
+        <img
+        class="scan-code"
+        src="data:image/png;base64, {{base_64_scan_code}}"
+        alt="Scan Code"
+        />
+        {% endif %}
+        <aside>
           <img
-            class="scan-code"
-            src="data:image/png;base64, {{base_64_scan_code}}"
-            alt="Scan Code"
+          class="cover"
+          src="data:image/png;base64, {{base_64_track_image}}"
+          alt="Cover Image"
           />
-          {% endif %}
-          <aside>
-            <img
-              class="cover"
-              src="data:image/png;base64, {{base_64_track_image}}"
-              alt="Cover Image"
-            />
-            <section>
-              <div class="info">
-                <div class="top">
-                  {% if not base_64_scan_code %}
-                  <img
-                    class="logo"
-                    src="data:image/png;base64, {{logo}}"
-                    alt="Spotify Logo"
-                  />
-                  {% endif %}
-                  <h1>{{track_name}}</h1>
-                </div>
-                <p>{{track_artist}}</p>
+          <section>
+            <div class="info">
+              <div class="top">
+                {% if not base_64_scan_code %}
+                <img
+                class="logo"
+                src="data:image/png;base64, {{logo}}"
+                alt="Spotify Logo"
+                />
+                {% endif %}
+                <h1>{{track_name}}</h1>
               </div>
-              <div class="bar-container">{{eq_bars_html|safe}}</div>
-              {% if duration_ms > 0 %}
-              <div class="progress-container">
-                <div class="progress-bar">
-                  <div class="progress-fill" style="width: {{ progress_percentage }}%;"></div>
-                </div>
-                <div class="time-display">
-                  <span class="elapsed-time">{{ elapsed_time }}</span>
-                  <span class="remaining-time">{{ remaining_time }}</span>
-                </div>
+              <p>{{track_artist}}</p>
+            </div>
+            <div class="bar-container">{{eq_bars_html|safe}}</div>
+            {% if timeline and duration_ms > 0 %}
+            <div class="progress-container">
+              <div class="progress-bar">
+                <div class="progress-fill" style="width: {{ progress_percentage }}%;"></div>
               </div>
-              {% endif %}
-              
-            </section>
-          </aside>
-        </main>
-      </a>
-    </div>
-  </foreignObject>
+              <div class="time-display">
+                <span class="elapsed-time">{{ elapsed_time }}</span>
+                <span class="remaining-time">{{ remaining_time }}</span>
+              </div>
+            </div>
+            {% endif %}
+          </section>
+        </aside>
+      </main>
+    </a>
+  </div>
+</foreignObject>
 
-  <!-- Pause Symbol Overlay -->
-  {% if not is_playing %}
-  <rect width="100%" height="100%" fill="#000" opacity="0.5"/>
-  <g transform="translate(247.5 80)">
-    <g transform="translate(-30 -30)">
-      <rect x="0" y="0" width="20" height="60" fill="#fff" opacity="0.9" rx="5"/>
-      <rect x="40" y="0" width="20" height="60" fill="#fff" opacity="0.9" rx="5"/>
-    </g>
+<!-- Pause Symbol Overlay -->
+{% if not is_playing %}
+<rect width="100%" height="100%" fill="#000" opacity="0.5"/>
+<g transform="translate(247.5 80)">
+  <g transform="translate(-30 -30)">
+    <rect x="0" y="0" width="20" height="60" fill="#fff" opacity="0.9" rx="5"/>
+    <rect x="40" y="0" width="20" height="60" fill="#fff" opacity="0.9" rx="5"/>
   </g>
-  {% endif %}
+</g>
+{% endif %}
 </svg>
