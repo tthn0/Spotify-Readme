@@ -84,22 +84,22 @@ def parse_request_args(request_args: MultiDict) -> ParsedArgs:
     return ParsedArgs(**parsed_request_args)
 
 
-def get_track(spotify_api: SpotifyAPI) -> Dict[str, Any]:
-    """Get the currently playing track."""
+def get_track(spotify_api: SpotifyAPI) -> tuple[Dict[str, Any], bool]:
+    """Get the currently playing track and whether it's playing."""
     now_playing: Dict[str, Any] = spotify_api.make_request(
         "me/player/currently-playing"
     )
-    recently_played: Dict[str, Any] = spotify_api.make_request(
-        "me/player/recently-played?limit=1"
-    )
+    is_playing = now_playing.get('is_playing', False)
+    now_playing_track = now_playing.get("item")
 
-    now_playing_track: Dict[str, Any] | None = now_playing.get("item")
-    recently_played_track: Dict[str, Any] = recently_played.get("items", [{}])[0].get(
-        "track"
-    )
-
-    return now_playing_track if now_playing_track else recently_played_track
-
+    if now_playing_track is not None:
+        return (now_playing_track, is_playing)
+    else:
+        recently_played: Dict[str, Any] = spotify_api.make_request(
+            "me/player/recently-played?limit=1"
+        )
+        recently_played_track = recently_played.get("items", [{}])[0].get("track", {})
+        return (recently_played_track, False)
 
 def get_base_64_track_image(track: Dict[str, Any]) -> str:
     """Get the Base64 encoded image from a track."""
@@ -122,7 +122,7 @@ def get_base_64_scan_code(spotify_uri: str, background: str, foreground: str) ->
 def prepare_widget_template_variables(
     parsed_args: ParsedArgs, spotify_api: SpotifyAPI
 ) -> Dict[str, Union[str, bool]]:
-    track = get_track(spotify_api)
+    track, is_playing = get_track(spotify_api)
 
     eq_bars_html = WidgetGenerator.generate_eq_bars_html(
         parsed_args.bar_count, parsed_args.eq_color
@@ -136,7 +136,7 @@ def prepare_widget_template_variables(
             parsed_args.scan_color_background,
             parsed_args.scan_color_foreground,
         )
-        if parsed_args.scan
+        if parsed_args.scan and track.get("uri")
         else ""
     )
     spin = parsed_args.spin
@@ -156,6 +156,7 @@ def prepare_widget_template_variables(
         "title_color": title_color,
         "subtitle_color": subtitle_color,
         "background_color": background_color,
+        "is_playing": is_playing,
     }
 
 
