@@ -4,6 +4,7 @@
   xmlns="http://www.w3.org/2000/svg"
   xmlns:xlink="http://www.w3.org/1999/xlink"
 >
+  <!-- ForeignObject for the main widget content -->
   <foreignObject width="495" height="160">
     <div xmlns="http://www.w3.org/1999/xhtml" class="container">
       <style>
@@ -25,6 +26,10 @@
             padding: 20px;
             border-radius: 5px;
             background: {{ background_color }};
+            {% if not is_playing %}
+                filter: grayscale(100%);
+                opacity: 0.7;
+            {% endif %}
         }
         .scan-code {
             transform-origin: top right;
@@ -137,6 +142,16 @@
                 opacity: .95;
             }
         }
+
+        /* Stop animations when paused */
+        {% if not is_playing %}
+        .bar {
+            animation: none !important;
+        }
+        .cover {
+            animation: none !important;
+        }
+        {% endif %}
       </style>
       <a href="https://github.com/tthn0/Spotify-Readme" target="_blank">
         <main>
@@ -174,4 +189,15 @@
       </a>
     </div>
   </foreignObject>
+
+  <!-- Pause Symbol Overlay -->
+  {% if not is_playing %}
+  <rect width="100%" height="100%" fill="#000" opacity="0.5"/>
+  <g transform="translate(247.5 80)">
+    <g transform="translate(-30 -30)">
+      <rect x="0" y="0" width="20" height="60" fill="#fff" opacity="0.9" rx="5"/>
+      <rect x="40" y="0" width="20" height="60" fill="#fff" opacity="0.9" rx="5"/>
+    </g>
+  </g>
+  {% endif %}
 </svg>
