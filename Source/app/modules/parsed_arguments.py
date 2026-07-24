@@ -20,6 +20,7 @@ class CONSTANTS:
 
 @dataclass(frozen=True)
 class ParsedArgs:
+    preview: bool = False
     spin: bool = False
     scan: bool = False
     theme: THEME = THEME.LIGHT
@@ -76,6 +77,7 @@ class ParsedArgs:
     def parse_request_args(request_args: MultiDict) -> dict[str, Any]:
         get_param: Callable = request_args.get
         return {
+            "preview": ParsedArgs.is_truhty(get_param("preview", "false", type=str)),
             "spin": ParsedArgs.is_truhty(get_param("spin", "false", type=str)),
             "scan": ParsedArgs.is_truhty(get_param("scan", "false", type=str)),
             "theme": THEME(get_param("theme", THEME.LIGHT.value, type=str)),
@@ -84,11 +86,16 @@ class ParsedArgs:
         }
 
     def __post_init__(self) -> None:
+        self._validate_preview()
         self._validate_spin()
         self._validate_scan()
         self._validate_theme()
         self._validate_eq_color()
         self._validate_width()
+
+    def _validate_preview(self) -> None:
+        if not isinstance(self.preview, bool):
+            raise ValueError("`preview` must be of type `bool`.")
 
     def _validate_spin(self) -> None:
         if not isinstance(self.spin, bool):

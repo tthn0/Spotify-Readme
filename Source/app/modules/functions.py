@@ -9,7 +9,7 @@ from werkzeug.datastructures import MultiDict
 from app.modules.base64 import BASE_64
 from app.modules.colors import COLORS
 from app.modules.environment_variables import ENV_VARS
-from app.modules.parsed_arguments import ParsedArgs
+from app.modules.parsed_arguments import THEME, ParsedArgs
 
 
 class SpotifyAPI:
@@ -101,43 +101,44 @@ def get_track(spotify_api: SpotifyAPI) -> Dict[str, Any]:
     return now_playing_track if now_playing_track else recently_played_track
 
 
-def get_base_64_track_image(track: Dict[str, Any]) -> str:
+def get_base_64_placeholder_image(theme: THEME) -> str:
+    if theme == THEME.LIGHT:
+        return BASE_64.PLACEHOLDER_COVER_DARK
+    else:
+        return BASE_64.PLACEHOLDER_COVER_LIGHT
+
+
+def get_base_64_track_image(track: Dict[str, Any], theme: THEME) -> str:
     """Get the Base64 encoded image from a track."""
     images = track.get("album", {}).get("images", [])
     if images:
         album_image_url: str = images[1]["url"]
         return ImageLoader.load_base_64_image_from_url(album_image_url)
-    return BASE_64.PLACEHOLDER_IMAGE
+    return get_base_64_placeholder_image(theme)
 
 
-def get_base_64_scan_code(spotify_uri: str, background: str, foreground: str) -> str:
+def get_base_64_placeholder_scan_code(theme: THEME) -> str:
+    if theme == THEME.LIGHT:
+        return BASE_64.PLACEHOLDER_SCAN_CODE_DARK
+    else:
+        return BASE_64.PLACEHOLDER_SCAN_CODE_LIGHT
+
+
+def get_base_64_scan_code(
+    spotify_uri: str, background: str, foreground: str, theme: THEME
+) -> str:
     """Get the track (scan) code for a song in Base64."""
     scan_code_url = f"https://scannables.scdn.co/uri/plain/png/{background}/{foreground}/500/{spotify_uri}"
-    return (
-        ImageLoader.load_base_64_image_from_url(scan_code_url)
-        or BASE_64.PLACEHOLDER_SCAN_CODE
-    )
+    return ImageLoader.load_base_64_image_from_url(
+        scan_code_url
+    ) or get_base_64_placeholder_scan_code(theme)
 
 
-def prepare_widget_template_variables(
+def prepare_template_variables(
     parsed_args: ParsedArgs, spotify_api: SpotifyAPI
 ) -> Dict[str, Union[str, bool]]:
-    track = get_track(spotify_api)
-
     eq_bars_html = WidgetGenerator.generate_eq_bars_html(
         parsed_args.bar_count, parsed_args.eq_color
-    )
-    track_name = track.get("name", "Unknown Track")
-    track_artist = track.get("artists", [{}])[0].get("name", "Unknown Artist")
-    base_64_track_image = get_base_64_track_image(track)
-    base_64_scan_code = (
-        get_base_64_scan_code(
-            track["uri"],
-            parsed_args.scan_color_background,
-            parsed_args.scan_color_foreground,
-        )
-        if parsed_args.scan
-        else ""
     )
     spin = parsed_args.spin
     logo = BASE_64.SPOTIFY_LOGO
@@ -145,17 +146,42 @@ def prepare_widget_template_variables(
     subtitle_color = f"#{parsed_args.subtitle_color}"
     background_color = f"#{parsed_args.main_background_color}"
 
+    if parsed_args.preview:
+        track_name = "Preview Song Name"
+        track_artist = "Preview Artist"
+        base_64_track_image = get_base_64_placeholder_image(parsed_args.theme)
+        base_64_scan_code = (
+            get_base_64_placeholder_scan_code(parsed_args.theme)
+            if parsed_args.scan
+            else ""
+        )
+    else:
+        track = get_track(spotify_api)
+        track_name = track.get("name", "Unknown Track")
+        track_artist = track.get("artists", [{}])[0].get("name", "Unknown Artist")
+        base_64_track_image = get_base_64_track_image(track)
+        base_64_scan_code = (
+            get_base_64_scan_code(
+                track["uri"],
+                parsed_args.scan_color_background,
+                parsed_args.scan_color_foreground,
+                parsed_args.theme,
+            )
+            if parsed_args.scan
+            else ""
+        )
+
     return {
         "eq_bars_html": eq_bars_html,
-        "track_name": track_name,
-        "track_artist": track_artist,
-        "base_64_track_image": base_64_track_image,
-        "base_64_scan_code": base_64_scan_code,
         "spin": spin,
         "logo": logo,
         "title_color": title_color,
         "subtitle_color": subtitle_color,
         "background_color": background_color,
+        "base_64_track_image": base_64_track_image,
+        "base_64_scan_code": base_64_scan_code,
+        "track_name": track_name,
+        "track_artist": track_artist,
     }
 
 
@@ -167,7 +193,7 @@ def make_svg_widget() -> str:
         client_secret=ENV_VARS.CLIENT_SECRET,
         refresh_token=ENV_VARS.REFRESH_TOKEN,
     )
-    template_variables = prepare_widget_template_variables(parsed_args, spotify_api)
+    template_variables = prepare_template_variables(parsed_args, spotify_api)
     return render_template("widget.html", **template_variables)
 
 

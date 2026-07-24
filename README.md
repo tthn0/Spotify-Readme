@@ -20,7 +20,7 @@
 /
 ```
 
-![Preview](https://tthn.pythonanywhere.com)
+![Preview](https://tthn.pythonanywhere.com/?preview=true)
 
 #### Spinning CD Effect
 
@@ -28,7 +28,7 @@
 ?spin=true
 ```
 
-![Preview](https://tthn.pythonanywhere.com?spin=true)
+![Preview](https://tthn.pythonanywhere.com/?preview=true&spin=true)
 
 #### Include Scan Code
 
@@ -36,7 +36,7 @@
 ?scan=true
 ```
 
-![Preview](https://tthn.pythonanywhere.com?scan=true)
+![Preview](https://tthn.pythonanywhere.com/?preview=true&scan=true)
 
 #### Dark Theme
 
@@ -44,7 +44,7 @@
 ?theme=dark
 ```
 
-![Preview](https://tthn.pythonanywhere.com?theme=dark)
+![Preview](https://tthn.pythonanywhere.com/?preview=true&theme=dark)
 
 #### Custom Equalizer
 
@@ -52,7 +52,7 @@
 ?eq_color=0995e0
 ```
 
-![Preview](https://tthn.pythonanywhere.com?eq_color=0995e0)
+![Preview](https://tthn.pythonanywhere.com/?preview=true&eq_color=0995e0)
 
 #### Rainbow Equalizer
 
@@ -60,7 +60,7 @@
 ?eq_color=rainbow
 ```
 
-![Preview](https://tthn.pythonanywhere.com?eq_color=rainbow)
+![Preview](https://tthn.pythonanywhere.com/?preview=true&eq_color=rainbow)
 
 #### Combination
 
@@ -68,19 +68,19 @@
 ?spin=true&scan=true&eq_color=rainbow&theme=dark
 ```
 
-![Preview](https://tthn.pythonanywhere.com?spin=true&scan=true&eq_color=rainbow&theme=dark)
+![Preview](https://tthn.pythonanywhere.com/?preview=true&spin=true&scan=true&eq_color=rainbow&theme=dark)
 
 ## Setup/Deployment
 
 > [!WARNING]  
-> This guide was last updated on Jul 27, 2024. The steps might differ slightly in the future if Spotify or PythonAnywhere update their website interfaces.
+> Spotify rolled out significant restrictions to its API on February 11th, 2026. To be able to display your currently playing song live, you must have a Spotify Premium account.
 
 > [!NOTE]  
-> This will take approximately 5 minutes to set up.
+> This guide was last updated on Jul 31, 2026. The steps might differ slightly in the future if Spotify or PythonAnywhere update their website interfaces.
 
 #### 0. Star This Repo (Mandatory) 🌟
 
-- This step is (not) required.
+- This step is (not) required but is appreciated.
 
 #### 1. Spotify's API 🎶
 
@@ -136,7 +136,6 @@ https://accounts.spotify.com/authorize?client_id={CLIENT_ID}&response_type=code&
 
 - <a href="https://github.com/tthn0/Spotify-Readme/fork">Fork</a> this repository. The new forked repository will be at `https://github.com/{GITHUB_USERNAME}/Spotify-Readme`, where `{GITHUB_USERNAME}` is your GitHub username.
 - Head over to <a href="https://www.pythonanywhere.com/pricing/">PythonAnywhere</a>, and `Create a Beginner Account` if you don't already have one. Take note of your username. We'll call this `{PA_USERNAME}`.
-
   - Complete the PythonAnywhere tour if you'd like to (or skip it).
   - Under `New console:`, click on the `Bash` option.
   - Run the following commands:
@@ -168,7 +167,6 @@ https://accounts.spotify.com/authorize?client_id={CLIENT_ID}&response_type=code&
   - Click on the PythonAnywhere logo on the upper left corner to go back to the main dashboard.
   - Click on `Web` in the navigation bar.
   - Click `Add a new web app`.
-
     - Take note of your web app's domain name.
     - Click `Next »`.
     - Select `Manual configuration`.
@@ -176,7 +174,6 @@ https://accounts.spotify.com/authorize?client_id={CLIENT_ID}&response_type=code&
     - Click `Next »`.
 
   - Scroll down to the `Code` section.
-
     - Change the `Source code` field to `/home/{PA_USERNAME}/Spotify-Readme/Source`.
     - Open the `WSGI configuration file` in a new tab and add the following to the bottom of the file:
 
@@ -197,7 +194,8 @@ https://accounts.spotify.com/authorize?client_id={CLIENT_ID}&response_type=code&
     - This should automatically fill in the field with the correct path to the virtual environment we created earlier.
   - Enable `Force HTTPS`.
   - Scroll back up to the top of the page.
-  - Click `Run until 3 months from today`.
+  - Click `Run until 1 month from today`.
+    - You will have to login to your PythonAnywhere account and click this button every month to prevent it from shutting down. You'll get reminder emails from PythonAnywhere when the expiration date is approaching though.
   - Click `Reload {PA_USERNAME}.pythonanywhere.com`.
   - Now it's deployed and ready to be used!
 
@@ -215,8 +213,8 @@ https://accounts.spotify.com/authorize?client_id={CLIENT_ID}&response_type=code&
 - Head over to <a href="https://vercel.com">Vercel</a> and create an account if you don't already have one.
   - Add a new project.
     - Link your GitHub account if you haven't done so already.
-    - Make sure Vercel has access to the forked respository.
-    - Import the forked respository into your project.
+    - Make sure Vercel has access to the forked repository.
+    - Import the forked repository into your project.
       - Give it a meaningful project name.
       - Change the Root Directory to `Source`.
       - Keep the default options for the other settings.
@@ -228,7 +226,7 @@ https://accounts.spotify.com/authorize?client_id={CLIENT_ID}&response_type=code&
       - Click **Continue to Dashboard**.
         - Find the **Domains** field and take note of the URL.
           - Example: `{PROJECT_NAME}.vercel.app`.
-- In the next step, reaplce `{USERNAME}.pythonanywhere.com` with `{PROJECT_NAME}.vercel.app` in the markdown code provided.
+- In the next step, replace `{USERNAME}.pythonanywhere.com` with `{PROJECT_NAME}.vercel.app` in the markdown code provided.
 
 </details>
 
